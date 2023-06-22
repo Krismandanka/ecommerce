@@ -8,6 +8,7 @@ require("dotenv").config();
 
 
 exports.isAuthenticationUser = catchAsyncErrors(async(req,res,next)=>{
+  
     const {token} = req.cookies;
     if(!token){
         return next(new ErrorHandler("plz login to access this",401));
@@ -16,7 +17,7 @@ exports.isAuthenticationUser = catchAsyncErrors(async(req,res,next)=>{
     const decodedData=jwt.verify(token,process.env.JWT_SECRET);
 
     req.user = await User.findById(decodedData.id);
- 
+    
     next();
 
 })
